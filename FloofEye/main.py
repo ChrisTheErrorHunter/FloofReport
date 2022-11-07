@@ -4,6 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import cv2
 import psycopg2
+from datetime import datetime
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -30,7 +31,6 @@ if __name__ == '__main__':
     print(cur.fetchone()[0])
     cur.close()
 
-    conn.close()
     while True:
         ret, frame = cap.read()
         height, width, _ = frame.shape
@@ -47,8 +47,13 @@ if __name__ == '__main__':
             if 40 < area < 5000:
                 if 220 < cnt[0][0][0] < 350 and 200 < cnt[0][0][1] < 350:
                     if currentLocation != "MICHA":
+                        now = datetime.now()
                         currentLocation = "MICHA"
                         print("MICHA")
+                        cur = conn.cursor()
+                        cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('2022-10-10', 1, 1, 1);''')
+                        conn.commit()
+                        cur.close()
                 #print(cnt[0][0])
                 cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
         #cv2.imshow("Framee", frame)
@@ -60,5 +65,6 @@ if __name__ == '__main__':
             #break
     cap.release()
     cv2.destroyAllWindows()
+    conn.close()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
