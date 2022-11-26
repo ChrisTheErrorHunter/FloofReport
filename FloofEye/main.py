@@ -7,13 +7,15 @@ import string
 import cv2
 import psycopg2
 import socket
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    cap = cv2.VideoCapture("C:/Users/mrkri/Videos/v1123/04-39-29.mp4")
+    cap = cv2.VideoCapture("C:/Users/Krzysztof/Videos/04-39-29.mp4")
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
+    raw_time = '2022-11-23 04:34:56.56110'
+    FDOB = datetime.strptime(raw_time, '%Y-%m-%d %H:%M:%S.%f')
     print(fps, "FPS")
 
     object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
@@ -78,13 +80,13 @@ if __name__ == '__main__':
         mask = object_detector.apply(frame)
         aoi2 = frame[DomekMinX:DomekMaxX, DomekMinY:DomekMaxY]
         _, mask = cv2.threshold(mask, 254, 255, cv2.THRESH_BINARY)
-
         contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if 40 < area < 5000:
                 tmp = (where_is_outline(cnt[0][0][1], cnt[0][0][0]))
                 if 0 != tmp != currentLocation:
+                    time_to_insert = FDOB + timedelta(milliseconds=400)
                     currentLocation = tmp
                     cur = conn.cursor()
                     cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES (now() + interval '1 hour', 1, 1, %d);''' %(currentLocation))
