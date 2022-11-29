@@ -7,15 +7,21 @@ import string
 import cv2
 import psycopg2
 import socket
+import subprocess
 import sys
 from datetime import datetime, timedelta
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    cap = cv2.VideoCapture("C:/Users/Krzysztof/Videos/2022-11-29/09-15-35.mp4")
+    cap = cv2.VideoCapture(sys.argv[1])
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
-    raw_time = '2022-11-23 04:34:56.5611'
+    proces = subprocess.Popen(['./date_of_birth.sh', sys.argv[1]], stdout=subprocess.PIPE)
+    output, _ = proces.communicate()
+    output = output.decode('ascii')
+    print(output)
+    raw_time = output
+    #raw_time = '2022-11-23 04:34:56.5611'
     FDOB = datetime.strptime(raw_time, '%Y-%m-%d %H:%M:%S.%f')
     print(fps, "FPS")
     milesecound_per_frame = 1000 / fps
@@ -126,10 +132,10 @@ if __name__ == '__main__':
                 #print(cnt[0][0])
             cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
         #cv2.imshow("Framee", frame)
-        cv2.imshow("aoi", aoi2)
-        cv2.imshow("Mask", mask)
-        cv2.imshow("Micha", frame)
-        key = cv2.waitKey(1)
+        #cv2.imshow("aoi", aoi2)
+        #cv2.imshow("Mask", mask)
+        #cv2.imshow("Micha", frame)
+        #key = cv2.waitKey(1)
         frame_num += 1
         #if key == 27:
             #break
