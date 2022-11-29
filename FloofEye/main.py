@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    cap = cv2.VideoCapture("C:/Users/mrkri/Videos/v1123/04-39-29.mp4")
+    cap = cv2.VideoCapture("C:/Users/Krzysztof/Videos/2022-11-29/09-15-35.mp4")
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
     raw_time = '2022-11-23 04:34:56.5611'
@@ -29,25 +29,47 @@ if __name__ == '__main__':
     DATABASE_PASSWORD = 'Flafik,456'
     DATABASE_NAME = 'HamsterBook'
 
-    OFFSETX = 40
-    OFFSETY = 35
+    OFFSETX = 20
+    OFFSETY = 0
 
-    MichaMinX = 200 + OFFSETX
-    MichaMinY = 220 + OFFSETY
-    MichaMaxX = 350 + OFFSETX
-    MichaMaxY = 350 + OFFSETY
+    MichaMinX = 230 + OFFSETX
+    MichaMinY = 200 + OFFSETY
+    MichaMaxX = 370 + OFFSETX
+    MichaMaxY = 330 + OFFSETY
     DomekMinX = 0 + OFFSETX
-    DomekMinY = 650 + OFFSETY
-    DomekMaxX = 170 + OFFSETX
-    DomekMaxY = 900 + OFFSETY
+    DomekMinY = 630 + OFFSETY
+    DomekMaxX = 190 + OFFSETX
+    DomekMaxY = 860 + OFFSETY
     KoszyczekMinX = 70 + OFFSETX
     KoszyczekMinY = 900 + OFFSETY
-    KoszyczekMaxX = 400 + OFFSETX
+    KoszyczekMaxX = 500 + OFFSETX
     KoszyczekMaxY = 1280 + OFFSETY
     KolkoMinX = 450 + OFFSETX
-    KolkoMinY = 300 + OFFSETY
+    KolkoMinY = 200 + OFFSETY
     KolkoMaxX = 720 + OFFSETX
-    KolkoMaxY = 800 + OFFSETY
+    KolkoMaxY = 700 + OFFSETY
+    PoidloMinX = 140 + OFFSETX
+    PoidloMinY = 0 + OFFSETY
+    PoidloMaxX = 290 + OFFSETX
+    PoidloMaxY = 130 + OFFSETY
+    SloikMinX = 400 + OFFSETX
+    SloikMinY = 0 + OFFSETY
+    SloikMaxX = 620 + OFFSETX
+    SloikMaxY = 150 + OFFSETY
+    CentrumMinX = 450 + OFFSETX
+    CentrumMinY = 200 + OFFSETY
+    CentrumMaxX = 720 + OFFSETX
+    CentrumMaxY = 700 + OFFSETY
+    FrontMinX = 450 + OFFSETX
+    FrontMinY = 200 + OFFSETY
+    FrontMaxX = 720 + OFFSETX
+    FrontMaxY = 700 + OFFSETY
+    DebugMinX = 400 + OFFSETX
+    DebugMinY = 0 + OFFSETY
+    DebugMaxX = 620 + OFFSETX
+    DebugMaxY = 150 + OFFSETY
+
+
 
     def where_is_outline(x: int, y: int) -> int:
         if (MichaMinX < x < MichaMaxX) and (MichaMinY < y < MichaMaxY):
@@ -58,6 +80,10 @@ if __name__ == '__main__':
             return 3
         elif (KolkoMinX < x < KolkoMaxX) and (KolkoMinY < y < KolkoMaxY):
             return 4
+        elif (PoidloMinX < x < PoidloMaxX) and (PoidloMinY < y < PoidloMaxY):
+            return 5
+        elif (SloikMinX < x < SloikMaxX) and (SloikMinY < y < SloikMaxY):
+            return 5
         else:
             return 0
 
@@ -76,26 +102,28 @@ if __name__ == '__main__':
     while True:
         ret, frame = cap.read()
         height, width, _ = frame.shape
-        aoi = frame[0 : 720, 50 : 1280]
+        aoi = frame[0 : 720, 30 : 1280]
         frame = aoi;
         mask = object_detector.apply(frame)
-        aoi2 = frame[DomekMinX:DomekMaxX, DomekMinY:DomekMaxY]
+        aoi2 = frame[DebugMinX:DebugMaxX, DebugMinY:DebugMaxY]
         _, mask = cv2.threshold(mask, 254, 255, cv2.THRESH_BINARY)
         contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if 40 < area < 5000:
-                tmp = (where_is_outline(cnt[0][0][1], cnt[0][0][0]))
-                if 0 != tmp != currentLocation:
-                    time_to_insert = FDOB + timedelta(milliseconds=milesecound_per_frame) * frame_num
-                    currentLocation = tmp
-                    cur = conn.cursor()
-                    cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' %(time_to_insert, currentLocation))
-                    conn.commit()
-                    print('''Saved %d area into db''' %(currentLocation))
-                    cur.close()
+        if(len(contours) == 0):
+            continue
+        cnt = max(contours, key=cv2.contourArea)
+        area = cv2.contourArea(cnt)
+        if 40 < area < 5000:
+            tmp = (where_is_outline(cnt[0][0][1], cnt[0][0][0]))
+            if 0 != tmp != currentLocation:
+                time_to_insert = FDOB + timedelta(milliseconds=milesecound_per_frame) * frame_num
+                currentLocation = tmp
+                cur = conn.cursor()
+                cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' %(time_to_insert, currentLocation))
+                conn.commit()
+                print('''Saved %d area into db''' %(currentLocation))
+                cur.close()
                 #print(cnt[0][0])
-                cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
+            cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
         #cv2.imshow("Framee", frame)
         cv2.imshow("aoi", aoi2)
         cv2.imshow("Mask", mask)
