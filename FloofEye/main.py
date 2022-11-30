@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    cap = cv2.VideoCapture("C:/Users/Krzysztof/Videos/2022-11-29/09-15-35.mp4")
+    cap = cv2.VideoCapture("C:/Users/mrkri/Videos/v1123/01-10-11.mp4")
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
     raw_time = '2022-11-23 04:34:56.5611'
@@ -102,6 +102,8 @@ if __name__ == '__main__':
 
     while True:
         ret, frame = cap.read()
+        if frame is None:
+            break
         height, width, _ = frame.shape
         aoi = frame[0 : 720, 30 : 1280]
         frame = aoi;

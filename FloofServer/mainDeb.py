@@ -3,13 +3,15 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import string
-
+import time
 import cv2
 import psycopg2
 import socket
 import subprocess
 import sys
+import shutil
 from datetime import datetime, timedelta
+from os import listdir
 
 
 OFFSETX = 20
@@ -105,6 +107,8 @@ def Analise(file_path):
 
     while True:
         ret, frame = cap.read()
+        if frame is None:
+            break
         height, width, _ = frame.shape
         aoi = frame[0: 720, 30: 1280]
         frame = aoi;
@@ -141,8 +145,18 @@ def Analise(file_path):
     cap.release()
     cv2.destroyAllWindows()
     conn.close()
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    Analise(sys.argv[1])
+    #Analise(sys.argv[1])
+    while True:
+        files = listdir('./')
+        time.sleep(3)
+        for f in files:
+            if f.endswith('.thumb'):
+	            movie = f[:len(f) - 6]
+	            print(movie)
+	            Analise(movie)
+	            #shutil.move(movie, './WorkingDirectory')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
