@@ -10,6 +10,7 @@ import socket
 import subprocess
 import sys
 import shutil
+import os
 from datetime import datetime, timedelta
 from os import listdir
 
@@ -70,10 +71,10 @@ def where_is_outline(x: int, y: int) -> int:
         return 0
 
 def Analise(file_path):
-    cap = cv2.VideoCapture(sys.argv[1])
+    cap = cv2.VideoCapture(file_path)
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
-    proces = subprocess.Popen(['./date_of_birth.sh', sys.argv[1]], stdout=subprocess.PIPE)
+    proces = subprocess.Popen(['./date_of_birth.sh', file_path], stdout=subprocess.PIPE)
     output, _ = proces.communicate()
     output = output.decode('ascii')
     print(output)
@@ -145,6 +146,7 @@ def Analise(file_path):
     cap.release()
     cv2.destroyAllWindows()
     conn.close()
+    shutil.move(file_path, '/mnt/hdd1/FloofArchive/')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -156,7 +158,8 @@ if __name__ == '__main__':
             if f.endswith('.thumb'):
 	            movie = f[:len(f) - 6]
 	            print(movie)
-	            Analise(movie)
-	            #shutil.move(movie, './WorkingDirectory')
+	            shutil.move(movie, '/mnt/ssd1/FloofProcessing/')
+	            Analise('/mnt/ssd1/FloofProcessing/' + movie)
+	            os.remove(f)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
