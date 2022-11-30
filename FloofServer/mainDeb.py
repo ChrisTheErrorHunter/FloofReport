@@ -79,7 +79,7 @@ def Analise(file_path):
     output = output.decode('ascii')
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    log_entry = "Began analising, current time: " + dt_string
+    log_entry = "Began analising at server time: " + dt_string
     log_entry += ('\n' + "Analising file with date: " + output)
     raw_time = output
     # raw_time = '2022-11-23 04:34:56.5611'
@@ -136,7 +136,7 @@ def Analise(file_path):
                     '''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' % (
                     time_to_insert, currentLocation))
                 conn.commit()
-                print('''Saved %d area into db''' % (currentLocation))
+                floof_log('''Saved %d area into db with time of: %s''' % (currentLocation, time_to_insert))
                 cur.close()
                 # print(cnt[0][0])
             cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
@@ -152,6 +152,9 @@ def Analise(file_path):
     cv2.destroyAllWindows()
     conn.close()
     shutil.move(file_path, '/mnt/hdd1/FloofArchive/')
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    floof_log("Ended work for upper file at server time: " + dt_string)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -162,7 +165,6 @@ if __name__ == '__main__':
         for f in files:
             if f.endswith('.thumb'):
 	            movie = f[:len(f) - 6]
-	            print(movie)
 	            shutil.move(movie, '/mnt/ssd1/FloofProcessing/')
 	            Analise('/mnt/ssd1/FloofProcessing/' + movie)
 	            os.remove(f)
