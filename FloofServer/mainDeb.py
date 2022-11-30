@@ -1,7 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import string
 import time
 import cv2
@@ -54,6 +50,10 @@ DebugMinY = 0 + OFFSETY
 DebugMaxX = 620 + OFFSETX
 DebugMaxY = 150 + OFFSETY
 
+def floof_log(txt):
+    with open("FloofLog.txt", "a") as file_object:
+        file_object.write(txt+'\n')
+
 def where_is_outline(x: int, y: int) -> int:
     if (MichaMinX < x < MichaMaxX) and (MichaMinY < y < MichaMaxY):
         return 1
@@ -77,18 +77,23 @@ def Analise(file_path):
     proces = subprocess.Popen(['./date_of_birth.sh', file_path], stdout=subprocess.PIPE)
     output, _ = proces.communicate()
     output = output.decode('ascii')
-    print(output)
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    log_entry = "Began analising, current time: " + dt_string
+    log_entry += ('\n' + "Analising file with date: " + output)
     raw_time = output
     # raw_time = '2022-11-23 04:34:56.5611'
     FDOB = datetime.strptime(raw_time, '%Y-%m-%d %H:%M:%S.%f')
-    print(fps, "FPS")
+    log_entry += ('\nDetected FPS: ' + str(fps))
+    floof_log(log_entry)
     milesecound_per_frame = 1000 / fps
 
     object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
 
     currentLocation = 0
     prevLocation = "Nowhere"
-    print("Db Address", socket.gethostbyname("mulawa.ddns.net"))
+    log_entry = ("Db Address on ip: " +  socket.gethostbyname("mulawa.ddns.net"))
+    floof_log(log_entry)
     DATABASE_HOST = socket.gethostbyname("mulawa.ddns.net")
     DATABASE_USER = 'postgres'
     DATABASE_PASSWORD = 'Flafik,456'

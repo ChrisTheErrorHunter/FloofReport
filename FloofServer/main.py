@@ -67,6 +67,10 @@ def where_is_outline(x: int, y: int) -> int:
     else:
         return 0
 
+def floof_log(txt):
+    with open("FloofLog.txt", "a") as file_object:
+        file_object.write(txt+'\n')
+
 def Analise(file_path):
     cap = cv2.VideoCapture(sys.argv[1])
     frame_num = 0
@@ -74,7 +78,7 @@ def Analise(file_path):
     proces = subprocess.Popen(['./date_of_birth.sh', sys.argv[1]], stdout=subprocess.PIPE)
     output, _ = proces.communicate()
     output = output.decode('ascii')
-    print(output)
+    floof_log(output)
     raw_time = output
     # raw_time = '2022-11-23 04:34:56.5611'
     FDOB = datetime.strptime(raw_time, '%Y-%m-%d %H:%M:%S.%f')
