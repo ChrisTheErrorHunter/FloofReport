@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    cap = cv2.VideoCapture("C:/Users/mrkri/Videos/v1123/01-10-11.mp4")
+    cap = cv2.VideoCapture("C:/Users/Krzysztof/Documents/2022-12-05-23-04-49.mp4")
     frame_num = 0
     fps = cap.get(cv2.CAP_PROP_FPS)
     raw_time = '2022-11-23 04:34:56.5611'
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     DATABASE_PASSWORD = 'Flafik,456'
     DATABASE_NAME = 'HamsterBook'
 
-    OFFSETX = 20
+    OFFSETX = 0
     OFFSETY = 0
 
     MichaMinX = 230 + OFFSETX
@@ -57,18 +57,18 @@ if __name__ == '__main__':
     SloikMinY = 0 + OFFSETY
     SloikMaxX = 620 + OFFSETX
     SloikMaxY = 150 + OFFSETY
-    CentrumMinX = 450 + OFFSETX
-    CentrumMinY = 200 + OFFSETY
-    CentrumMaxX = 720 + OFFSETX
+    CentrumMinX = 200 + OFFSETX
+    CentrumMinY = 400 + OFFSETY
+    CentrumMaxX = 420 + OFFSETX
     CentrumMaxY = 700 + OFFSETY
     FrontMinX = 450 + OFFSETX
     FrontMinY = 200 + OFFSETY
     FrontMaxX = 720 + OFFSETX
     FrontMaxY = 700 + OFFSETY
-    DebugMinX = 400 + OFFSETX
-    DebugMinY = 0 + OFFSETY
-    DebugMaxX = 620 + OFFSETX
-    DebugMaxY = 150 + OFFSETY
+    DebugMinX = 200 + OFFSETX
+    DebugMinY = 400 + OFFSETY
+    DebugMaxX = 420 + OFFSETX
+    DebugMaxY = 700 + OFFSETY
 
 
 
@@ -84,7 +84,9 @@ if __name__ == '__main__':
         elif (PoidloMinX < x < PoidloMaxX) and (PoidloMinY < y < PoidloMaxY):
             return 5
         elif (SloikMinX < x < SloikMaxX) and (SloikMinY < y < SloikMaxY):
-            return 5
+            return 6
+        elif (CentrumMinX < x < CentrumMaxX) and (CentrumMinY < y < CentrumMaxY):
+            return 6
         else:
             return 0
 
@@ -105,7 +107,7 @@ if __name__ == '__main__':
         if frame is None:
             break
         height, width, _ = frame.shape
-        aoi = frame[0 : 720, 30 : 1280]
+        aoi = frame[0 : 720, 20 : 1280]
         frame = aoi;
         mask = object_detector.apply(frame)
         aoi2 = frame[DebugMinX:DebugMaxX, DebugMinY:DebugMaxY]
@@ -120,11 +122,11 @@ if __name__ == '__main__':
             if 0 != tmp != currentLocation:
                 time_to_insert = FDOB + timedelta(milliseconds=milesecound_per_frame) * frame_num
                 currentLocation = tmp
-                cur = conn.cursor()
-                cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' %(time_to_insert, currentLocation))
-                conn.commit()
+                #cur = conn.cursor()
+                #cur.execute('''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' %(time_to_insert, currentLocation))
+                #conn.commit()
                 print('''Saved %d area into db''' %(currentLocation))
-                cur.close()
+                #cur.close()
                 #print(cnt[0][0])
             cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
         #cv2.imshow("Framee", frame)
