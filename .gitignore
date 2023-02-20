@@ -1,2 +1,3 @@
 
-FloofReport/.vs/
+FloofReport/.vs/*
+/FloofReport/.vs/FloofReport/v17/.suo
