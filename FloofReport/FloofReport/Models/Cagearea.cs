@@ -14,7 +14,9 @@ namespace FloofReport.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Cageid { get; set; }
 
+        public virtual Cage Cage { get; set; }
         public virtual ICollection<Visualevent> Visualevents { get; set; }
     }
 }

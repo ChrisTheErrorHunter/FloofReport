@@ -8,6 +8,5 @@
         Title="Floof Report" Height="450" Width="800">
     <Grid>
         <Frame x:Name="mainFrame"></Frame>
-        <TextBlock x:Name="debugTxbt" HorizontalAlignment="Left" Margin="152,63,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="581"/>
     </Grid>
 </Window>

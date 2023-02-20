@@ -9,6 +9,7 @@ namespace FloofReport.Models
     {
         public Cage()
         {
+            Cageareas = new HashSet<Cagearea>();
             Visualevents = new HashSet<Visualevent>();
         }
 
@@ -18,6 +19,7 @@ namespace FloofReport.Models
         public short Beddingdepth { get; set; }
         public string Size { get; set; }
 
+        public virtual ICollection<Cagearea> Cageareas { get; set; }
         public virtual ICollection<Visualevent> Visualevents { get; set; }
     }
 }

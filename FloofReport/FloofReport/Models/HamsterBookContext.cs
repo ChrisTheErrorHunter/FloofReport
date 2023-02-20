@@ -93,10 +93,18 @@ namespace FloofReport.Models
                     .HasColumnName("id")
                     .UseIdentityAlwaysColumn();
 
+                entity.Property(e => e.Cageid).HasColumnName("cageid");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(32)
                     .HasColumnName("name");
+
+                entity.HasOne(d => d.Cage)
+                    .WithMany(p => p.Cageareas)
+                    .HasForeignKey(d => d.Cageid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cageid");
             });
 
             modelBuilder.Entity<Visualevent>(entity =>
