@@ -25,6 +25,7 @@
           "net7.0-windows"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "C:\\Users\\Krzysztof\\Documents\\Work\\Immensa\\SoftwareInc-DUBAJ\\SoftwareInc-DUBAJ": {},
           "https://api.nuget.org/v3/index.json": {}
