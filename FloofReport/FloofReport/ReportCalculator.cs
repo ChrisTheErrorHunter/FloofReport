@@ -28,7 +28,14 @@ namespace FloofReport
                 currentEvent = visualevents[i];
                 nextEvent = visualevents[i + 1];
                 TimeSpan ts = nextEvent.Registrationtime - currentEvent.Registrationtime;
-                events.Add(new EventItem(ts, currentEvent.Areaid));
+                if(ts < TimeSpan.FromMinutes(2))
+                {
+                    events.Add(new EventItem(ts, currentEvent.Areaid, true));
+                }
+                else
+                {
+                    events.Add(new EventItem(ts, currentEvent.Areaid, false));
+                }
             }
             foreach (Visualevent vEvent in visualevents)
             {
@@ -36,17 +43,41 @@ namespace FloofReport
             }
             return events;
         }
+
+        public List<EventItem> GetWrappedEvents(List<EventItem> eventItemsUnwrapped)
+        {
+            List<EventItem> eventsWrapped = new();
+            var areas = (from c in eventItemsUnwrapped select c.AreaCode).Distinct();
+            foreach(int area in areas)
+            {
+                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, true));
+                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, false));
+            }
+            foreach(EventItem eventItem in eventItemsUnwrapped)
+            {
+                foreach(EventItem item in eventsWrapped)
+                {
+                    if(item.AreaCode == eventItem.AreaCode && item.IsActive == eventItem.IsActive)
+                    {
+                        item.TimeSpan += eventItem.TimeSpan;
+                    }
+                }
+            }
+            return eventsWrapped;
+        }
     }
 
     public class EventItem
     {
         public TimeSpan TimeSpan { get; set; }
         public int AreaCode { get; set; }
+        public bool IsActive { get; set; }
 
-        public EventItem(TimeSpan time, int areaCode)
+        public EventItem(TimeSpan time, int areaCode, bool isActive)
         {
             TimeSpan = time;
             AreaCode = areaCode;
+            IsActive = isActive;
         }
     }
 }

@@ -9,7 +9,7 @@
       Title="PageReportGenerator">
 
     <Grid Background="White">
-        <ComboBox HorizontalAlignment="Center" Margin="0,56,0,0" VerticalAlignment="Top" Width="198"/>
+        <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,56,0,0" VerticalAlignment="Top" Width="198" SelectionChanged="cmbCage_SelectionChanged"/>
 
     </Grid>
 </Page>

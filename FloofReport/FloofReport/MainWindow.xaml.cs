@@ -23,12 +23,11 @@ namespace FloofReport
     {
         MainWindowModel model = new();
         
-        
         public MainWindow()
         {
             InitializeComponent();
             DataContext = model;
-            
+            mainFrame.Content = model.PageReportGenerator;
         }
     }
 }

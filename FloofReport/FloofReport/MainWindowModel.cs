@@ -11,10 +11,12 @@ namespace FloofReport
     public class MainWindowModel
     {
         private HamsterBookContext _context = new();
+
+        public PageReportGenerator PageReportGenerator { get; set; }
         
         public MainWindowModel()
         {
-            InitCages();
+            PageReportGenerator = new(_context);
         }
 
         

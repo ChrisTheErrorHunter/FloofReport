@@ -29,5 +29,10 @@ namespace FloofReport
             DataContext = model;
 
         }
+
+        private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
     }
 }
