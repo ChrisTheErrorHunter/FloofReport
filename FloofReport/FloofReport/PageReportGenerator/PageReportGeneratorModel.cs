@@ -10,14 +10,27 @@ using System.Windows;
 
 namespace FloofReport
 {
-    public class PageReportGeneratorModel
+    public class PageReportGeneratorModel : VMHelper
     {
         private HamsterBookContext _context;
+
+        private List<EventItem> _wrappedData = new();
+        public List<EventItem> WrappedData
+        {
+            get
+            {
+                return _wrappedData;
+            }
+            private set
+            {
+                _wrappedData = value;
+            }
+        }
         public ObservableCollection<Cage> Cages { get; set; }
 
         ReportCalculator calculator = new();
 
-        public ObservableCollection<string> AvailabeTimes { get; set; } = new();
+        public ObservableCollection<string> AvailableTimes { get; set; } = new();
 
         public PageReportGeneratorModel(HamsterBookContext context) 
         {
@@ -39,6 +52,10 @@ namespace FloofReport
                 reportShort += "\nAreaCode: " + e.AreaCode.ToString() + " Time: " + e.TimeSpan.ToString() + " Activity: " + e.IsActive.ToString();
             }
             MessageBox.Show(reportShort);
+            WrappedData = itemsToDisplay;
+            WindowReportChartsModel chartModel = new(WrappedData);
+            WindowReportCharts chartWindow = new(chartModel, WrappedData);
+            chartWindow.Show();
             //GetAllDatesForCage();
         }
         private void InitCages()
@@ -49,15 +66,15 @@ namespace FloofReport
 
         public void GetAllDatesForCage(Cage cage)
         {
-            AvailabeTimes.Clear();
-            var distinctDays = _context.Visualevents
+            AvailableTimes.Clear();
+            var dates = _context.Visualevents.AsEnumerable().AsQueryable();
+            var distinctDays = dates
                 .Where(x => x.Cageid == cage.Id)
-                .Select(x => System.Data.Entity.DbFunctions.TruncateTime(x.Registrationtime))
-                .Distinct()
-                .ToList();
+                .Select(x => x.Registrationtime.Date)
+                .Distinct().ToList();
             foreach (var d in distinctDays)
             {
-                AvailabeTimes.Add(d.ToString() ?? "");
+                AvailableTimes.Add(d.ToString("dd/MM/yyyy") ?? "");
             }
         }
     }

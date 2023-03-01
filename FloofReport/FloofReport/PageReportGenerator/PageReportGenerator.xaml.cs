@@ -22,17 +22,24 @@ namespace FloofReport
     public partial class PageReportGenerator : Page
     {
         PageReportGeneratorModel model;
+
         public PageReportGenerator(HamsterBookContext context)
         {
-            InitializeComponent();
             model = new PageReportGeneratorModel(context);
             DataContext = model;
+            InitializeComponent();
+            
 
         }
 
         private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            model.GetAllDatesForCage((Cage)(sender as ComboBox).SelectedItem);
+        }
+
+        private void btnGenerate_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
