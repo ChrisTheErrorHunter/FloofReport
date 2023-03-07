@@ -24,14 +24,16 @@ namespace FloofReport
     {
 
         private WindowReportChartsModel _model;
-        private List<EventItem> _events = new List<EventItem>();
-        public WindowReportCharts(WindowReportChartsModel model, List<EventItem> events)
+        private List<EventItem> _eventsWrapped = new List<EventItem>();
+        public WindowReportCharts(WindowReportChartsModel model, List<EventItem> eventsWrapped, List<EventItem> eventsFull)
         {
             InitializeComponent();
-            _events = events;
+            _eventsWrapped = eventsWrapped;
             _model = model;
             DataContext = _model;
-            InitlializePieChart(_events);
+            InitlializePieChart(_eventsWrapped);
+            InitializeActivityChart(eventsFull);
+            FillReportTextBox();
         }
 
         public Func<ChartPoint, string> PointLabel { get; set; }
@@ -41,7 +43,7 @@ namespace FloofReport
             foreach (EventItem item in eventList)
             {
                 PieSeries series = new PieSeries();
-                series.Title = item.AreaCode.ToString() + (item.IsActive ? " Aktywność" : " Bierność");
+                series.Title = item.AreaName?.ToString() + (item.IsActive ? " Aktywność" : " Bierność");
                 series.DataLabels = false;
                 series.LabelPoint = PointLabel;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(item.TimeSpan.TotalMilliseconds) };
@@ -49,20 +51,38 @@ namespace FloofReport
             }
         }
 
-        private void Chart_OnDataClick(object sender, ChartPoint chartpoint)
+        private void InitializeActivityChart(List<EventItem> eventList)
         {
-            var chart = (LiveCharts.Wpf.PieChart)chartpoint.ChartView;
-            SeriesCollection sc = new();
-            sc.Add(new PieSeries());
-            List<PieSeries> pi = new();
-            Piee.Series = sc;
-
-            //clear selected slice.
-            foreach (PieSeries series in chart.Series)
-                series.PushOut = 0;
-
-            var selectedSeries = (PieSeries)chartpoint.SeriesView;
-            selectedSeries.PushOut = 8;
+            SeriesCollection seriesCollection = chartActivity.Series;
+            ChartValues<ObservablePoint> ints = new ChartValues<ObservablePoint>();
+            StepLineSeries series = new StepLineSeries();
+            series.Title = "Aktywność";
+            series.DataLabels = false;
+            series.LabelPoint = PointLabel;
+            TimeSpan totalSpan = TimeSpan.Zero;
+            bool previousActivity = !eventList[0].IsActive;
+            foreach (EventItem item in eventList)
+            {
+                if (previousActivity == item.IsActive) // this is done to simplify the data so we don't get consecutive points on charts (they don't tell us much anyway)
+                {
+                    totalSpan += item.TimeSpan;
+                    continue;
+                }
+                ints.Add(new ObservablePoint(totalSpan.TotalHours, item.IsActive ? 1 : 0));
+                totalSpan += item.TimeSpan;
+                previousActivity = item.IsActive;
+            }
+            series.Values = ints;
+            seriesCollection.Add(series);
         }
+
+        private void FillReportTextBox()
+        {
+            foreach (EventItem e in _eventsWrapped)
+            {
+                txbReport.AppendText( "\nObszar: " + e.AreaName?.ToString() + " Czas: " + e.TimeSpan.ToString(@"hh\:mm\:ss") + (e.IsActive ? " Aktywność" : " Bierność"));
+            }
+        }
+
     }
 }

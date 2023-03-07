@@ -6,9 +6,19 @@
         xmlns:local="clr-namespace:FloofReport"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="WindowReportCharts" Height="450" Width="800">
+        Title="WindowReportCharts" Height="1080" Width="1920">
     <Grid>
-        <lvc:PieChart x:Name="Piee" LegendLocation="Bottom" DataClick="Chart_OnDataClick" Hoverable="False" DataTooltip="{x:Null}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <lvc:PieChart Grid.Row="0" Grid.Column="0" x:Name="Piee" LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}"/>
+        <lvc:CartesianChart x:Name="chartActivity" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LegendLocation="Right" Hoverable="False" IsEnabled="False"/>
+        <TextBox x:Name="txbReport" Grid.Column="1" TextWrapping="Wrap" Margin="10,10,10,10"/>
 
     </Grid>
 </Window>

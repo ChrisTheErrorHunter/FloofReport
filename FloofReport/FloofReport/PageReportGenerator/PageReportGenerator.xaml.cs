@@ -39,7 +39,7 @@ namespace FloofReport
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-
+            model.GenerateRaport();
         }
     }
 }

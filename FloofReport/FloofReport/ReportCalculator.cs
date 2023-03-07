@@ -28,7 +28,7 @@ namespace FloofReport
                 currentEvent = visualevents[i];
                 nextEvent = visualevents[i + 1];
                 TimeSpan ts = nextEvent.Registrationtime - currentEvent.Registrationtime;
-                if(ts < TimeSpan.FromMinutes(2))
+                if(ts < TimeSpan.FromSeconds(90))
                 {
                     events.Add(new EventItem(ts, currentEvent.Areaid, true));
                 }
@@ -50,8 +50,9 @@ namespace FloofReport
             var areas = (from c in eventItemsUnwrapped select c.AreaCode).Distinct();
             foreach(int area in areas)
             {
-                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, true));
-                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, false));
+                string ca = (from c in _context.Cageareas where c.Id == area select c.Name).FirstOrDefault() ?? "Error";
+                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, true, ca));
+                eventsWrapped.Add(new EventItem(TimeSpan.Zero, area, false, ca));
             }
             foreach(EventItem eventItem in eventItemsUnwrapped)
             {
@@ -72,12 +73,14 @@ namespace FloofReport
         public TimeSpan TimeSpan { get; set; }
         public int AreaCode { get; set; }
         public bool IsActive { get; set; }
+        public string? AreaName { get; set; }
 
-        public EventItem(TimeSpan time, int areaCode, bool isActive)
+        public EventItem(TimeSpan time, int areaCode, bool isActive, string? areaName = null)
         {
             TimeSpan = time;
             AreaCode = areaCode;
             IsActive = isActive;
+            AreaName = areaName;
         }
     }
 }

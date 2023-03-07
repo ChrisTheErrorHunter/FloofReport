@@ -10,7 +10,7 @@
 
     <Grid Background="White">
         <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,56,0,0" VerticalAlignment="Top" Width="198" SelectionChanged="cmbCage_SelectionChanged"/>
-        <ComboBox x:Name="cmbDays" HorizontalAlignment="Center" ItemsSource="{Binding AvailableTimes}" Margin="0,90,0,0" VerticalAlignment="Top" Width="198" SelectionChanged="cmbCage_SelectionChanged"/>
+        <ComboBox x:Name="cmbDays" HorizontalAlignment="Center" ItemsSource="{Binding AvailableTimes}" SelectedItem="{Binding SelectedDate}" Margin="0,90,0,0" VerticalAlignment="Top" Width="198"/>
         <Button x:Name="btnGenerate" Content="Generuj Raport" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Click="btnGenerate_Click"/>
 
     </Grid>
