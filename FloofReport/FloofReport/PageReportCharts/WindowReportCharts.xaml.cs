@@ -76,12 +76,25 @@ namespace FloofReport
             seriesCollection.Add(series);
         }
 
+        private TimeSpan ApproxRunningTime()
+        {
+            EventItem wheelActivity = (from e in _eventsWrapped where (e.AreaName.StartsWith("Kół") || e.AreaName.StartsWith("Kolo") || e.AreaName.StartsWith("Kolko")) select e).FirstOrDefault();
+            if (wheelActivity != null)
+            {
+                return wheelActivity.TimeSpan;
+            }
+            return TimeSpan.Zero;
+        }
+
         private void FillReportTextBox()
         {
             foreach (EventItem e in _eventsWrapped)
             {
-                txbReport.AppendText( "\nObszar: " + e.AreaName?.ToString() + " Czas: " + e.TimeSpan.ToString(@"hh\:mm\:ss") + (e.IsActive ? " Aktywność" : " Bierność"));
+                txbReport.AppendText( "\nObszar: " + e.AreaName?.ToString() + (e.IsActive ? " Aktywność" : " Bierność") + " Czas: " + e.TimeSpan.ToString(@"hh\:mm\:ss"));
             }
+            txbReport.AppendText("\n");
+            txbReport.AppendText("Prawodopodobny czas biegania na kołowrtoku określono na: " + ApproxRunningTime().ToString(@"hh\:mm\:ss"));
+
         }
 
     }

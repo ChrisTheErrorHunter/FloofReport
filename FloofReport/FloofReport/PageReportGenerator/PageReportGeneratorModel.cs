@@ -60,7 +60,7 @@ namespace FloofReport
             var distinctDays = dates
                 .Where(x => x.Cageid == cage.Id)
                 .Select(x => x.Registrationtime.Date)
-                .Distinct().ToList();
+                .Distinct().OrderBy(a => a.Date).ToList();
             foreach (var d in distinctDays)
             {
                 AvailableTimes.Add(d.ToString("dd/MM/yyyy") ?? "");

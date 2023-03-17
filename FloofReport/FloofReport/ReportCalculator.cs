@@ -19,7 +19,7 @@ namespace FloofReport
         public List<EventItem> ManufactureReportTimeFrames(DateTime targetDate)
         {
 
-            List<Visualevent> visualevents = (from c in _context.Visualevents where c.Registrationtime.Day == targetDate.Day select c).ToList();
+            List<Visualevent> visualevents = (from c in _context.Visualevents where c.Registrationtime.Date == targetDate.Date select c).OrderBy(ev => ev.Registrationtime).ToList();
             List<EventItem> events = new List<EventItem>();
             int listLength = visualevents.Count;
             Visualevent currentEvent, nextEvent;
