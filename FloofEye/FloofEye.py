@@ -93,7 +93,6 @@ def Analise(file_path):
     log_entry = "Began analising at server time: " + dt_string
     log_entry += ('\n' + "Analising file with date: " + output)
     raw_time = output
-    # raw_time = '2022-11-23 04:34:56.5611'
     FDOB = datetime.strptime(raw_time, '%Y-%m-%d %H:%M:%S.%f')
     log_entry += ('\nDetected FPS: ' + str(fps))
     floof_log(log_entry)
@@ -109,6 +108,10 @@ def Analise(file_path):
     DATABASE_USER = config['DATABASE']['user']
     DATABASE_PASSWORD = config['DATABASE']['password']
     DATABASE_NAME = config['DATABASE']['dbname']
+    hamsterId = int(config['DATABASE']['hamsterid'])
+    cageId = int(config['DATABASE']['cageid'])
+    debugFeed = config['DEBUG_OPTIONS']['DebugFeed']
+    saveFeed = config['DEBUG_OPTIONS']['SaveFeed']
 
     conn = psycopg2.connect(
         dbname=DATABASE_NAME,
@@ -116,11 +119,6 @@ def Analise(file_path):
         host=DATABASE_HOST,
         password=DATABASE_PASSWORD
     )
-
-    # cur = conn.cursor()
-    # cur.execute("SELECT version();")
-    # print(cur.fetchone()[0])
-    # cur.close()
 
     while True:
         ret, frame = cap.read()
@@ -144,32 +142,31 @@ def Analise(file_path):
                 currentLocation = tmp
                 cur = conn.cursor()
                 cur.execute(
-                    '''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', 1, 1, %d);''' % (
-                    time_to_insert, currentLocation))
+                    '''INSERT INTO visualevents (registrationtime, cageid, hamsterid, areaid) VALUES ('%s', %d, %d, %d);''' % (
+                    time_to_insert, hamsterId, cageId, currentLocation))
                 conn.commit()
                 floof_log('''Saved %d area into db with time of: %s''' % (currentLocation, time_to_insert))
                 cur.close()
-                # print(cnt[0][0])
-            #cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
-        #cv2.imshow("Framee", frame)
-        #cv2.imshow("aoi", aoi2)
-        # cv2.imshow("Mask", mask)
-        #cv2.imshow("Micha", frame)
-        #key = cv2.waitKey(1)
+                if debugFeed == '1':
+                    cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
+        if debugFeed == '1':
+            cv2.imshow("Framee", frame)
+            cv2.imshow("aoi", aoi2)
+            cv2.imshow("Mask", mask)
+            key = cv2.waitKey(1)
         frame_num += 1
-        # if key == 27:
-        # break
     cap.release()
     cv2.destroyAllWindows()
     conn.close()
-    shutil.move(file_path, archive_path)
+    if saveFeed == '1':
+        shutil.move(file_path, archive_path)
+    else:
+        os.remove(file_path)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     floof_log("Ended work for upper file at server time: " + dt_string)
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #Analise(sys.argv[1])
     while True:
         files = listdir('./')
         time.sleep(3)
@@ -180,4 +177,3 @@ if __name__ == '__main__':
 	            Analise(processing_path + movie)
 	            os.remove(f)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
