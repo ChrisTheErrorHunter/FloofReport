@@ -97,6 +97,7 @@ def Analise(file_path):
     log_entry += ('\nDetected FPS: ' + str(fps))
     floof_log(log_entry)
     milesecound_per_frame = 1000 / fps
+    movementDetected = False
 
     object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
 
@@ -112,6 +113,7 @@ def Analise(file_path):
     cageId = int(config['DATABASE']['cageid'])
     debugFeed = config['DEBUG_OPTIONS']['DebugFeed']
     saveFeed = config['DEBUG_OPTIONS']['SaveFeed']
+    saveMovementOnly = config['DEBUG_OPTIONS']['SaveOnlyMovement']
 
     conn = psycopg2.connect(
         dbname=DATABASE_NAME,
@@ -138,6 +140,7 @@ def Analise(file_path):
         if 40 < area < 5000 and frame_num > 2:
             tmp = (where_is_outline(cnt[0][0][1], cnt[0][0][0]))
             if 0 != tmp != currentLocation:
+                movementDetected = True
                 time_to_insert = FDOB + timedelta(milliseconds=milesecound_per_frame) * frame_num
                 currentLocation = tmp
                 cur = conn.cursor()
@@ -158,7 +161,7 @@ def Analise(file_path):
     cap.release()
     cv2.destroyAllWindows()
     conn.close()
-    if saveFeed == '1':
+    if saveFeed == '1' and (saveMovementOnly == '0' or movementDetected == True):
         shutil.move(file_path, archive_path)
     else:
         os.remove(file_path)
