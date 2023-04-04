@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FloofReport"
         mc:Ignorable="d"
-        Title="Floof Report" Height="450" Width="800">
+        Icon="Resources\logo_2.png"
+        Title="Floof Report" Height="900" Width="650" ResizeMode="NoResize">
     <Grid>
         <Frame x:Name="mainFrame"></Frame>
     </Grid>

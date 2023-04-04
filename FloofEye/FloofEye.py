@@ -58,6 +58,15 @@ DebugMinX = MostekMinX
 DebugMinY = MostekMinY
 DebugMaxX = MostekMaxX
 DebugMaxY = MostekMaxY
+DATABASE_HOST = socket.gethostbyname(config['DATABASE']['address'])
+DATABASE_USER = config['DATABASE']['user']
+DATABASE_PASSWORD = config['DATABASE']['password']
+DATABASE_NAME = config['DATABASE']['dbname']
+hamsterId = int(config['DATABASE']['hamsterid'])
+cageId = int(config['DATABASE']['cageid'])
+debugFeed = config['DEBUG_OPTIONS']['DebugFeed']
+saveFeed = config['DEBUG_OPTIONS']['SaveFeed']
+saveMovementOnly = config['DEBUG_OPTIONS']['SaveOnlyMovement']
 
 def floof_log(txt):
     with open("FloofLog.txt", "a") as file_object:
@@ -105,15 +114,6 @@ def Analise(file_path):
     prevLocation = "Nowhere"
     log_entry = ("Db Address on ip: " +  socket.gethostbyname(config['DATABASE']['address']))
     floof_log(log_entry)
-    DATABASE_HOST = socket.gethostbyname(config['DATABASE']['address'])
-    DATABASE_USER = config['DATABASE']['user']
-    DATABASE_PASSWORD = config['DATABASE']['password']
-    DATABASE_NAME = config['DATABASE']['dbname']
-    hamsterId = int(config['DATABASE']['hamsterid'])
-    cageId = int(config['DATABASE']['cageid'])
-    debugFeed = config['DEBUG_OPTIONS']['DebugFeed']
-    saveFeed = config['DEBUG_OPTIONS']['SaveFeed']
-    saveMovementOnly = config['DEBUG_OPTIONS']['SaveOnlyMovement']
 
     conn = psycopg2.connect(
         dbname=DATABASE_NAME,
@@ -132,7 +132,7 @@ def Analise(file_path):
         mask = object_detector.apply(frame)
         aoi2 = frame[DebugMinX:DebugMaxX, DebugMinY:DebugMaxY]
         _, mask = cv2.threshold(mask, 254, 255, cv2.THRESH_BINARY)
-        contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if (len(contours) == 0):
             continue
         cnt = max(contours, key=cv2.contourArea)

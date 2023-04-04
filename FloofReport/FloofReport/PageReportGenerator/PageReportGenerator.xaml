@@ -5,13 +5,25 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FloofReport"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageReportGenerator">
+      Title="PageReportGenerator" Width="650" Height="900">
 
-    <Grid Background="White">
-        <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,56,0,0" VerticalAlignment="Top" Width="198" SelectionChanged="cmbCage_SelectionChanged"/>
-        <ComboBox x:Name="cmbDays" HorizontalAlignment="Center" ItemsSource="{Binding AvailableTimes}" SelectedItem="{Binding SelectedDate}" Margin="0,90,0,0" VerticalAlignment="Top" Width="198"/>
-        <Button x:Name="btnGenerate" Content="Generuj Raport" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Click="btnGenerate_Click"/>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/PageReportGenerator/background.png" Stretch="Fill"/>
+        </Grid.Background>
+        <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,73,0,0" VerticalAlignment="Top" Width="254" SelectionChanged="cmbCage_SelectionChanged" Height="26"/>
+        <ComboBox x:Name="cmbMonths" HorizontalAlignment="Left" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" Margin="313,104,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="btnGenerate" Content="Generuj dzienny raport" HorizontalAlignment="Center" Margin="0,176,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40"/>
+        <ComboBox x:Name="cmbDays" HorizontalAlignment="Left" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" Margin="392,104,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.491,0.613"/>
+        <ComboBox x:Name="cmbYears" HorizontalAlignment="Left" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Margin="198,104,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="btnAddToList" Content="Dodaj do raportu porównawczego" HorizontalAlignment="Center" Margin="0,131,0,0" VerticalAlignment="Top" Width="254" Height="40" Click="btnAddToList_Click"/>
+        <Image Source="..\Resources\logo_1.2.png" Height="214" Margin="129,604,129,0" VerticalAlignment="Top" Stretch="Fill"/>
+        <DataGrid ItemsSource="{Binding XExamineDates}"  Margin="152,228,152,360" Background="{x:Null}" AutoGenerateColumns="False" HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Data " Width="200*" Binding="{Binding}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnXEgsamineGenerate" Content="Generuj raport porównawczy" HorizontalAlignment="Center" Margin="0,545,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40"/>
 
     </Grid>
 </Page>

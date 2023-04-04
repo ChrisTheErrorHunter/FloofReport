@@ -28,8 +28,6 @@ namespace FloofReport
             model = new PageReportGeneratorModel(context);
             DataContext = model;
             InitializeComponent();
-            
-
         }
 
         private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -40,6 +38,11 @@ namespace FloofReport
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
             model.GenerateRaport();
+        }
+
+        private void btnAddToList_Click(object sender, RoutedEventArgs e)
+        {
+            model.AddSelectedDateToXExamine();
         }
     }
 }

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:FloofReport"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="WindowReportCharts" Height="1080" Width="1920">
+        Icon="..\Resources\logo_2.png"
+        Title="Floof Report - Raport dzienny" Height="1080" Width="1920">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
