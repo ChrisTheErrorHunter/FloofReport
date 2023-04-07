@@ -11,19 +11,19 @@
         <Grid.Background>
             <ImageBrush ImageSource="/PageReportGenerator/background.png" Stretch="Fill"/>
         </Grid.Background>
-        <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,73,0,0" VerticalAlignment="Top" Width="254" SelectionChanged="cmbCage_SelectionChanged" Height="26"/>
-        <ComboBox x:Name="cmbMonths" HorizontalAlignment="Left" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" Margin="313,104,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="0.5,0.5"/>
-        <Button x:Name="btnGenerate" Content="Generuj dzienny raport" HorizontalAlignment="Center" Margin="0,176,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40"/>
-        <ComboBox x:Name="cmbDays" HorizontalAlignment="Left" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" Margin="392,104,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.491,0.613"/>
-        <ComboBox x:Name="cmbYears" HorizontalAlignment="Left" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Margin="198,104,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.5,0.5"/>
-        <Button x:Name="btnAddToList" Content="Dodaj do raportu porównawczego" HorizontalAlignment="Center" Margin="0,131,0,0" VerticalAlignment="Top" Width="254" Height="40" Click="btnAddToList_Click"/>
-        <Image Source="..\Resources\logo_1.2.png" Height="214" Margin="129,604,129,0" VerticalAlignment="Top" Stretch="Fill"/>
-        <DataGrid ItemsSource="{Binding XExamineDates}"  Margin="152,228,152,360" Background="{x:Null}" AutoGenerateColumns="False" HeadersVisibility="Column">
+        <ComboBox x:Name="cmbCage" HorizontalAlignment="Center" ItemsSource="{Binding Cages}" DisplayMemberPath="Location" Margin="0,298,0,0" VerticalAlignment="Top" Width="254" SelectionChanged="cmbCage_SelectionChanged" Height="26"/>
+        <ComboBox x:Name="cmbMonths" HorizontalAlignment="Left" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" Margin="313,329,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="btnGenerate" Content="Generuj dzienny raport" HorizontalAlignment="Center" Margin="0,401,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
+        <ComboBox x:Name="cmbDays" HorizontalAlignment="Left" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" Margin="392,329,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.491,0.613"/>
+        <ComboBox x:Name="cmbYears" HorizontalAlignment="Left" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Margin="198,329,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="btnAddToList" Content="Dodaj do raportu porównawczego" HorizontalAlignment="Center" Margin="0,356,0,0" VerticalAlignment="Top" Width="254" Height="40" Click="btnAddToList_Click" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
+        <Image Source="..\Resources\logo_1.2.png" Height="214" Margin="129,43,129,0" VerticalAlignment="Top" Stretch="Fill"/>
+        <DataGrid ItemsSource="{Binding XExamineDates}"  Margin="152,453,152,135" Background="{x:Null}" AutoGenerateColumns="False" HeadersVisibility="Column" Foreground="#FF333333" FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Data " Width="200*" Binding="{Binding}"/>
+                <DataGridTextColumn Header="Daty do analizy porównawczej " Width="200*" Binding="{Binding}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnXEgsamineGenerate" Content="Generuj raport porównawczy" HorizontalAlignment="Center" Margin="0,545,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40"/>
+        <Button x:Name="btnXEgsamineGenerate" Content="Generuj raport porównawczy" HorizontalAlignment="Center" Margin="0,770,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
 
     </Grid>
 </Page>
