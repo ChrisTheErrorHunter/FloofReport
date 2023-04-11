@@ -53,3 +53,6 @@ C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\obj\Debug\net7.
 C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\bin\Debug\net7.0-windows\Resources\logo_1.2.svg
 C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\bin\Debug\net7.0-windows\Resources\logo_1.2.png
 C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\bin\Debug\net7.0-windows\Resources\logo_2.png
+C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\obj\Debug\net7.0-windows\WindowXExamineReport\WindowXExamineReport.g.cs
+C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\obj\Debug\net7.0-windows\WindowXExamineReport\WindowXExamineReport.baml
+C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\bin\Debug\net7.0-windows\Resources\trashIcon.png

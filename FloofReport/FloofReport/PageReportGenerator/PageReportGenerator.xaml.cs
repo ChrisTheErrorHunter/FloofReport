@@ -44,5 +44,15 @@ namespace FloofReport
         {
             model.AddSelectedDateToXExamine();
         }
+
+        private void btnXEgsamineGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            model.GenerateXExamineReport();
+        }
+
+        private void btnDeleteDate_Click(object sender, RoutedEventArgs e)
+        {
+            model.DeleteSelectedDate(dtgDates.SelectedIndex);
+        }
     }
 }

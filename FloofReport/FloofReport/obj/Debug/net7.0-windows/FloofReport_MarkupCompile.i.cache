@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\App.xaml
-31168633309
-4194650611
-17-1696122615
+42128430176
+51285833522
+191063753215
 217-530094474
-MainWindow.xaml;PageReportCharts\WindowReportCharts.xaml;PageReportGenerator\PageReportGenerator.xaml;
+MainWindow.xaml;PageReportCharts\WindowReportCharts.xaml;PageReportGenerator\PageReportGenerator.xaml;WindowXExamineReport\WindowXExamineReport.xaml;
 
-False
+True
 

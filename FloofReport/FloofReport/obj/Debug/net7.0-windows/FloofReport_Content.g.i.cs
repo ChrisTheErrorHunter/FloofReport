@@ -11,6 +11,7 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/background.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/logo_1.2.svg")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/logo_2.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/trashicon.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/logo_1.2.png")]
 
 

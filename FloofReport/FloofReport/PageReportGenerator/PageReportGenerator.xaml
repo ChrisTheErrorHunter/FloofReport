@@ -18,12 +18,15 @@
         <ComboBox x:Name="cmbYears" HorizontalAlignment="Left" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Margin="198,329,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.5,0.5"/>
         <Button x:Name="btnAddToList" Content="Dodaj do raportu porównawczego" HorizontalAlignment="Center" Margin="0,356,0,0" VerticalAlignment="Top" Width="254" Height="40" Click="btnAddToList_Click" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
         <Image Source="..\Resources\logo_1.2.png" Height="214" Margin="129,43,129,0" VerticalAlignment="Top" Stretch="Fill"/>
-        <DataGrid ItemsSource="{Binding XExamineDates}"  Margin="152,453,152,135" Background="{x:Null}" AutoGenerateColumns="False" HeadersVisibility="Column" Foreground="#FF333333" FontWeight="Bold">
+        <DataGrid x:Name="dtgDates" ItemsSource="{Binding XExamineDates}"  Margin="152,453,152,135" Background="{x:Null}" AutoGenerateColumns="False" HeadersVisibility="Column" Foreground="#FF333333" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Daty do analizy porównawczej " Width="200*" Binding="{Binding}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnXEgsamineGenerate" Content="Generuj raport porównawczy" HorizontalAlignment="Center" Margin="0,770,0,0" VerticalAlignment="Top" Click="btnGenerate_Click" Width="254" Height="40" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
+        <Button x:Name="btnXEgsamineGenerate" Content="Generuj raport porównawczy" HorizontalAlignment="Center" Margin="0,770,0,0" VerticalAlignment="Top" Click="btnXEgsamineGenerate_Click" Width="254" Height="40" FontWeight="Bold" Background="#FFB48D63" FontSize="14" Foreground="#FF333333"/>
+        <Button x:Name="btnDeleteDate" HorizontalAlignment="Left" Margin="503,734,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="btnDeleteDate_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+            <Image Source="C:\Users\Krzysztof\Documents\FloofReport\FloofReport\FloofReport\Resources\trashIcon.png"/>
+        </Button>
 
     </Grid>
 </Page>

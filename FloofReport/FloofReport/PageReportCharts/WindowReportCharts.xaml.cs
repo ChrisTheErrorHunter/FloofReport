@@ -22,15 +22,12 @@ namespace FloofReport
     /// </summary>
     public partial class WindowReportCharts : Window
     {
-
-        private WindowReportChartsModel _model;
         private List<EventItem> _eventsWrapped = new List<EventItem>();
-        public WindowReportCharts(WindowReportChartsModel model, List<EventItem> eventsWrapped, List<EventItem> eventsFull)
+        
+        public WindowReportCharts(List<EventItem> eventsWrapped, List<EventItem> eventsFull)
         {
             InitializeComponent();
             _eventsWrapped = eventsWrapped;
-            _model = model;
-            DataContext = _model;
             InitlializePieChart(_eventsWrapped);
             InitializeActivityChart(eventsFull);
             FillReportTextBox();

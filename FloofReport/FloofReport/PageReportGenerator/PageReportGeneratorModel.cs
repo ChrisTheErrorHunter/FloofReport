@@ -31,7 +31,7 @@ namespace FloofReport
 
         public ObservableCollection<string> XExamineDates { get; set; } = new();
 
-        ReportCalculator calculator = new();
+        private ReportCalculator _calculator = new();
 
         public ObservableCollection<string> AvailableTimes { get; set; } = new();
 
@@ -97,11 +97,10 @@ namespace FloofReport
 
         public void GenerateRaport()
         {
-            List<EventItem> ev = calculator.ManufactureReportTimeFrames(_selectedDate);
-            List<EventItem> itemsToDisplay = calculator.GetWrappedEvents(ev);
+            List<EventItem> ev = _calculator.ManufactureReportTimeFrames(_selectedDate);
+            List<EventItem> itemsToDisplay = _calculator.GetWrappedEvents(ev);
             WrappedData = itemsToDisplay;
-            WindowReportChartsModel chartModel = new(WrappedData);
-            WindowReportCharts chartWindow = new(chartModel, WrappedData, ev);
+            WindowReportCharts chartWindow = new(WrappedData, ev);
             chartWindow.Show();
         }
 
@@ -151,6 +150,30 @@ namespace FloofReport
         public void AddSelectedDateToXExamine()
         {
             XExamineDates.Add(_selectedDate.ToString("dd/MM/yyyy"));
+        }
+
+        public List<EventItemsXExamine> GenerateXExamineData()
+        {
+            List<EventItemsXExamine> eventItemsList = new List<EventItemsXExamine>();
+            foreach(string date in XExamineDates)
+            {
+                List<EventItem> events = _calculator.ManufactureReportTimeFrames(DateTime.Parse(date));
+                List<EventItem> wrapped = _calculator.GetWrappedEvents(events);
+                eventItemsList.Add(new EventItemsXExamine(date, wrapped));
+            }
+            return eventItemsList;
+        }
+
+        public void GenerateXExamineReport()
+        {
+            WindowXExamineReport window = new(GenerateXExamineData());
+            window.Show();
+        }
+
+        public void DeleteSelectedDate(int index)
+        {
+            if (index < 0) return;
+            XExamineDates.RemoveAt(index);
         }
     }
 }
