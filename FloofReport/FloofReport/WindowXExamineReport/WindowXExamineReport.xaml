@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:FloofReport"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="WindowXExamineReport" Height="1080" Width="1080">
+        Icon="..\Resources\logo_2.png"
+        Title="Floof Report - Raport porównawczy" Height="1080" Width="1080">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
