@@ -21,13 +21,13 @@ namespace FloofReport
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowModel model = new();
+        private MainWindowModel _model = new();
         
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = model;
-            mainFrame.Content = model.PageReportGenerator;
+            DataContext = _model;
+            mainFrame.Content = _model.PageReportGenerator;
         }
     }
 }

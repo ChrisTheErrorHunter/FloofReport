@@ -21,38 +21,38 @@ namespace FloofReport
     /// </summary>
     public partial class PageReportGenerator : Page
     {
-        PageReportGeneratorModel model;
+        PageReportGeneratorModel _model;
 
         public PageReportGenerator(HamsterBookContext context)
         {
-            model = new PageReportGeneratorModel(context);
-            DataContext = model;
+            _model = new PageReportGeneratorModel(context);
+            DataContext = _model;
             InitializeComponent();
         }
 
         private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            model.GetAllDatesForCage((Cage)(sender as ComboBox).SelectedItem);
+            _model.GetAllDatesForCage((Cage)(sender as ComboBox).SelectedItem);
         }
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            model.GenerateRaport();
+            _model.GenerateRaport();
         }
 
         private void btnAddToList_Click(object sender, RoutedEventArgs e)
         {
-            model.AddSelectedDateToXExamine();
+            _model.AddSelectedDateToXExamine();
         }
 
         private void btnXEgsamineGenerate_Click(object sender, RoutedEventArgs e)
         {
-            model.GenerateXExamineReport();
+            _model.GenerateXExamineReport();
         }
 
         private void btnDeleteDate_Click(object sender, RoutedEventArgs e)
         {
-            model.DeleteSelectedDate(dtgDates.SelectedIndex);
+            _model.DeleteSelectedDate(dtgDates.SelectedIndex);
         }
     }
 }

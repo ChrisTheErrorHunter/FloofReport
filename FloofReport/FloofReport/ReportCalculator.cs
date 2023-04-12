@@ -11,10 +11,7 @@ namespace FloofReport
     public class ReportCalculator
     {
         HamsterBookContext _context = new HamsterBookContext();
-        public ReportCalculator()
-        {
-
-        }
+        public ReportCalculator() { }
 
         public List<EventItem> ManufactureReportTimeFrames(DateTime targetDate)
         {
