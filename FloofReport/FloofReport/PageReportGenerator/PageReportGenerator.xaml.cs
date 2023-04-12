@@ -28,7 +28,6 @@ namespace FloofReport
             _model = new PageReportGeneratorModel(context);
             DataContext = _model;
             InitializeComponent();
-            
         }
 
         private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)

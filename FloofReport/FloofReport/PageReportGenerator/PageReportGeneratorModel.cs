@@ -73,8 +73,16 @@ namespace FloofReport
         }
         private void InitCages()
         {
-            var cages = from c in _context.Cages select c;
-            Cages = new ObservableCollection<Cage>(cages.ToList());
+            try
+            {
+                var cages = from c in _context.Cages select c;
+                Cages = new ObservableCollection<Cage>(cages.ToList());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Nie można połączyć z bazą danych!");
+                App.Current.Shutdown();
+            }
         }
 
         public void GetAllDatesForCage(Cage cage)
