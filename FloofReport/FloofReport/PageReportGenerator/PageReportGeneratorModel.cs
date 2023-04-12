@@ -97,6 +97,11 @@ namespace FloofReport
 
         public void GenerateRaport()
         {
+            if (string.IsNullOrWhiteSpace(SelectedDay))
+            {
+                MessageBox.Show("Wybierz datę!");
+                return;
+            }
             List<EventItem> ev = _calculator.ManufactureReportTimeFrames(_selectedDate);
             List<EventItem> itemsToDisplay = _calculator.GetWrappedEvents(ev);
             WrappedData = itemsToDisplay;
@@ -149,6 +154,11 @@ namespace FloofReport
 
         public void AddSelectedDateToXExamine()
         {
+            if (string.IsNullOrWhiteSpace(SelectedDay))
+            {
+                MessageBox.Show("Wybierz datę!");
+                return;
+            }
             XExamineDates.Add(_selectedDate.ToString("dd/MM/yyyy"));
         }
 
@@ -166,6 +176,11 @@ namespace FloofReport
 
         public void GenerateXExamineReport()
         {
+            if(XExamineDates.Count < 2 || XExamineDates.Count > 30)
+            {
+                MessageBox.Show("Liczba dat do porównania musi być pomiędzy 2 a 30");
+                return;
+            }
             WindowXExamineReport window = new(GenerateXExamineData());
             window.Show();
         }
