@@ -116,8 +116,7 @@ namespace FloofReport
         {
             btnExportToPdf.Visibility = Visibility.Hidden;
             FrameworkElement element = windowsXExamine;
-            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
-            PdfExporter.ExportToPdf(element, outputFile);
+            PdfExporter.ExportToPdf(element, "XExamine-" + DateTime.Now.ToString("dd-MM-yy-HH-mm-ss"));
             btnExportToPdf.Visibility = Visibility.Visible;
         }
     }

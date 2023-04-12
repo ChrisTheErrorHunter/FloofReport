@@ -102,14 +102,14 @@ namespace FloofReport
             List<EventItem> ev = _calculator.ManufactureReportTimeFrames(_selectedDate);
             List<EventItem> itemsToDisplay = _calculator.GetWrappedEvents(ev);
             WrappedData = itemsToDisplay;
-            WindowReportCharts chartWindow = new(WrappedData, ev);
+            WindowReportCharts chartWindow = new(WrappedData, ev, _selectedDate.ToString("dd-MM-yy"));
             chartWindow.Show();
         }
 
         private void InitYears()
         {
             var dates = AvailableTimes.Select(dateString => DateTime.ParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture));
-            var distinctYears = dates.Select(date => date.Year.ToString()).Distinct().OrderByDescending(date => date).ToList();
+            var distinctYears = dates.Select(date => date.Year.ToString()).Distinct().OrderByDescending(dates => int.Parse(dates)).ToList();
             Years = new ObservableCollection<string>(distinctYears);
         }
 
@@ -123,7 +123,7 @@ namespace FloofReport
             var distinctMonthsInYear = dates
             .Where(date => date.Year.ToString() == SelectedYear)
             .Select(date => date.Month.ToString())
-            .OrderByDescending(dates => dates)
+            .OrderByDescending(dates => int.Parse(dates))
             .Distinct()
             .ToList();
             Months = new ObservableCollection<string>(distinctMonthsInYear);
@@ -137,7 +137,7 @@ namespace FloofReport
             var distinctDaysInMonthAndYear = dates
             .Where(date => date.Year.ToString() == SelectedYear && date.Month.ToString() == SelectedMonth)
             .Select(date => date.Day.ToString())
-            .OrderByDescending(dates => dates)
+            .OrderByDescending(dates => int.Parse(dates))
             .Distinct()
             .ToList();
             Days = new ObservableCollection<string>(distinctDaysInMonthAndYear);

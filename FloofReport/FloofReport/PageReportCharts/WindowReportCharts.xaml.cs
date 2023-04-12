@@ -23,11 +23,13 @@ namespace FloofReport
     public partial class WindowReportCharts : Window
     {
         private List<EventItem> _eventsWrapped = new List<EventItem>();
+        private string _reportDate;
         
-        public WindowReportCharts(List<EventItem> eventsWrapped, List<EventItem> eventsFull)
+        public WindowReportCharts(List<EventItem> eventsWrapped, List<EventItem> eventsFull, string reportDate)
         {
             InitializeComponent();
             _eventsWrapped = eventsWrapped;
+            _reportDate = reportDate + "-Gen-";
             InitlializePieChart(_eventsWrapped);
             InitializeActivityChart(eventsFull);
             FillReportTextBox();
@@ -118,8 +120,7 @@ namespace FloofReport
         {
             btnExportToPdf.Visibility = Visibility.Hidden;
             FrameworkElement element = windowReport;
-            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
-            PdfExporter.ExportToPdf(element, outputFile);
+            PdfExporter.ExportToPdf(element, "Report-" + _reportDate + DateTime.Now.ToString("dd-MM-yy-HH-mm-ss"));
             btnExportToPdf.Visibility = Visibility.Visible;
         }
     }

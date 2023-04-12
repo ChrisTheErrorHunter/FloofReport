@@ -16,7 +16,14 @@ namespace FloofReport
     {
         public static void ExportToPdf(FrameworkElement element, string filename)
         {
-            // Convert the WPF UI element to a bitmap image
+            string DirectoryPath = string.Format("{0}\\FloofPdfReports", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+            string filePath = string.Format("{0}\\{1}.pdf", DirectoryPath, filename);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             int dpi = 96;
             double width = element.ActualWidth;
@@ -25,15 +32,12 @@ namespace FloofReport
             RenderTargetBitmap bmp = new RenderTargetBitmap((int)Math.Ceiling(width * dpi / 96.0), (int)Math.Ceiling(height * dpi / 96.0), dpi, dpi, PixelFormats.Pbgra32);
             bmp.Render(element);
 
-            // Create a PDF document
             PdfDocument document = new PdfDocument();
 
-            // Create a new page and add it to the document
             PdfPage page = document.AddPage();
             page.Width = width * 72 / 96.0;
             page.Height = height * 72 / 96.0;
 
-            // Create an XImage from the bitmap image and draw it on the PDF page
             using (XGraphics gfx = XGraphics.FromPdfPage(page))
             {
                 using (MemoryStream stream = new MemoryStream())
@@ -46,8 +50,7 @@ namespace FloofReport
                     gfx.DrawImage(img, 0, 0, page.Width, page.Height);
                 }
             }
-            // Save the document to a file
-            document.Save(filename);
+            document.Save(filePath);
         }
     }
 }
