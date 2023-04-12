@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FloofReport.Models;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -109,6 +110,15 @@ namespace FloofReport
                 totalTime += waterItem.TimeSpan;
             }
             txbWaterTankTime.Content += totalTime.ToString(@"d\.hh\:mm\:ss");
+        }
+
+        private void btnExportToPdf_Click(object sender, RoutedEventArgs e)
+        {
+            btnExportToPdf.Visibility = Visibility.Hidden;
+            FrameworkElement element = windowsXExamine;
+            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
+            PdfExporter.ExportToPdf(element, outputFile);
+            btnExportToPdf.Visibility = Visibility.Visible;
         }
     }
 }

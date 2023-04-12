@@ -113,5 +113,14 @@ namespace FloofReport
             txbReport.AppendText("\nPrawodopodobny czas snu w domku określono na: " + ApproxSleepTime().ToString(@"hh\:mm\:ss"));
             txbReport.AppendText("\nPrawodopodobny czas picia wody określono na: " + ApproxDrinkingTime().ToString(@"hh\:mm\:ss"));
         }
+
+        private void btnExportToPdf_Click(object sender, RoutedEventArgs e)
+        {
+            btnExportToPdf.Visibility = Visibility.Hidden;
+            FrameworkElement element = windowReport;
+            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
+            PdfExporter.ExportToPdf(element, outputFile);
+            btnExportToPdf.Visibility = Visibility.Visible;
+        }
     }
 }

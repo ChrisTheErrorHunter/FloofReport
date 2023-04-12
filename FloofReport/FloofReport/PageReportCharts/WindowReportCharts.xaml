@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:FloofReport"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
+        x:Name="windowReport"
         Icon="..\Resources\logo_2.png"
         Title="Floof Report - Raport dzienny" Height="1080" Width="1920">
     <Grid>
@@ -17,6 +18,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Button x:Name="btnExportToPdf" Grid.Column="1" Content="Eksportuj do PDF" Margin="0,22,21,0" VerticalAlignment="Top" Click="btnExportToPdf_Click" HorizontalAlignment="Right" Width="109" Background="#FFB48D63" FontWeight="Bold" Foreground="#FF333333" Panel.ZIndex="9999"/>
         <lvc:PieChart Grid.Row="0" Grid.Column="0" x:Name="Piee" LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}"/>
         <lvc:CartesianChart x:Name="chartActivity" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LegendLocation="Right" Hoverable="False" IsEnabled="False">
             <lvc:CartesianChart.AxisY>
@@ -27,7 +29,7 @@
                 </lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
-        <TextBox x:Name="txbReport" Grid.Column="1" TextWrapping="Wrap" Margin="10,10,10,10"/>
+        <TextBox x:Name="txbReport" Grid.Column="1" TextWrapping="Wrap" Margin="10,10,10,10" IsReadOnly="True"/>
 
     </Grid>
 </Window>

@@ -54,9 +54,6 @@ namespace FloofReport
         private void btnDeleteDate_Click(object sender, RoutedEventArgs e)
         {
             _model.DeleteSelectedDate(dtgDates.SelectedIndex);
-            FrameworkElement element = page;
-            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
-            PdfExporter.ExportToPdf(element, outputFile);
         }
     }
 }
