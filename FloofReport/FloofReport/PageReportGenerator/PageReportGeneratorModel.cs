@@ -69,10 +69,7 @@ namespace FloofReport
         public PageReportGeneratorModel(HamsterBookContext context) 
         {
             _context = context;
-            
             InitCages();
-            
-            //GetAllDatesForCage();
         }
         private void InitCages()
         {

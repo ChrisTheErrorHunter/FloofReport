@@ -28,6 +28,7 @@ namespace FloofReport
             _model = new PageReportGeneratorModel(context);
             DataContext = _model;
             InitializeComponent();
+            
         }
 
         private void cmbCage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,6 +54,9 @@ namespace FloofReport
         private void btnDeleteDate_Click(object sender, RoutedEventArgs e)
         {
             _model.DeleteSelectedDate(dtgDates.SelectedIndex);
+            FrameworkElement element = page;
+            string outputFile = @"C:\Users\Krzysztof\Documents\Floof\page.pdf";
+            PdfExporter.ExportToPdf(element, outputFile);
         }
     }
 }
