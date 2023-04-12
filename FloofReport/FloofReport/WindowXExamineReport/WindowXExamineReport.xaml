@@ -44,6 +44,10 @@
         <Label Content="Czas na kołowrotku" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Column="1"/>
         <Label Content="Czas snu w domku" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Row="3"/>
         <Label Content="Czas picia wody" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Row="3" Grid.Column="1"/>
+        <Label x:Name="txbActivityTime" Content="Całkowity czas aktywności: " Grid.Row="2" Margin="10,4,10,5" FontWeight="Bold" FontSize="18"/>
+        <Label x:Name="txbWheelTime" Content="Całkowity czas na kołowrotku: " Grid.Row="2" Margin="10,5,10,4" FontWeight="Bold" FontSize="18" Grid.Column="1"/>
+        <Label x:Name="txbHouseTime" Content="Całkowity czas w domku: " Grid.Row="5" Margin="10,10,10,37" FontWeight="Bold" FontSize="18"/>
+        <Label x:Name="txbWaterTankTime" Content="Całkowity czas przy poidle: " Grid.Row="5" Margin="10,10,10,37" FontWeight="Bold" FontSize="18" Grid.Column="1"/>
 
     </Grid>
 </Window>

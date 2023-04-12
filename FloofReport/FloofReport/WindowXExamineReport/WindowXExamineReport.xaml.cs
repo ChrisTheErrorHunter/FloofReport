@@ -36,7 +36,8 @@ namespace FloofReport
         private void InitializeActivityChart()
         {
             SeriesCollection seriesCollection = chartActivity.Series;
-            foreach(EventItemsXExamine eventItems in _eventItemsList)
+            TimeSpan totalTime = TimeSpan.Zero;
+            foreach (EventItemsXExamine eventItems in _eventItemsList)
             {
                 ColumnSeries series = new();
                 TimeSpan ts = TimeSpan.Zero;
@@ -51,12 +52,15 @@ namespace FloofReport
                 series.DataLabels = false;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(ts.TotalSeconds) };
                 seriesCollection.Add(series);
+                totalTime += ts;
             }
+            txbActivityTime.Content += totalTime.ToString(@"d\.hh\:mm\:ss");
         }
 
         private void InitializeWheelChart()
         {
             SeriesCollection seriesCollection = chartWheel.Series;
+            TimeSpan totalTime = TimeSpan.Zero;
             foreach (EventItemsXExamine eventItems in _eventItemsList)
             {
                 ColumnSeries series = new();
@@ -66,12 +70,15 @@ namespace FloofReport
                 series.DataLabels = false;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(wheelItem.TimeSpan.TotalSeconds) };
                 seriesCollection.Add(series);
+                totalTime += wheelItem.TimeSpan;
             }
+            txbWheelTime.Content += totalTime.ToString(@"d\.hh\:mm\:ss");
         }
 
         private void InitializeHouseChart()
         {
             SeriesCollection seriesCollection = chartHouse.Series;
+            TimeSpan totalTime = TimeSpan.Zero;
             foreach (EventItemsXExamine eventItems in _eventItemsList)
             {
                 ColumnSeries series = new();
@@ -81,12 +88,15 @@ namespace FloofReport
                 series.DataLabels = false;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(houseItem.TimeSpan.TotalSeconds) };
                 seriesCollection.Add(series);
+                totalTime += houseItem.TimeSpan;
             }
+            txbHouseTime.Content += totalTime.ToString(@"d\.hh\:mm\:ss");
         }
 
         private void InitializeWaterTankChart()
         {
             SeriesCollection seriesCollection = chartWaterTank.Series;
+            TimeSpan totalTime = TimeSpan.Zero;
             foreach (EventItemsXExamine eventItems in _eventItemsList)
             {
                 ColumnSeries series = new();
@@ -96,7 +106,9 @@ namespace FloofReport
                 series.DataLabels = false;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(waterItem.TimeSpan.TotalSeconds) };
                 seriesCollection.Add(series);
+                totalTime += waterItem.TimeSpan;
             }
+            txbWaterTankTime.Content += totalTime.ToString(@"d\.hh\:mm\:ss");
         }
     }
 }

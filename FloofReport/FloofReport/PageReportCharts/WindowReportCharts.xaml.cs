@@ -53,7 +53,7 @@ namespace FloofReport
             SeriesCollection seriesCollection = chartActivity.Series;
             ChartValues<ObservablePoint> ints = new ChartValues<ObservablePoint>();
             StepLineSeries series = new StepLineSeries();
-            series.Title = "Aktywność";
+            series.Title = "Aktywność: \n1 - Aktywność \n0 - Bierność";
             series.DataLabels = false;
             series.LabelPoint = PointLabel;
             TimeSpan totalSpan = TimeSpan.Zero;
@@ -75,10 +75,30 @@ namespace FloofReport
 
         private TimeSpan ApproxRunningTime()
         {
-            EventItem wheelActivity = (from e in _eventsWrapped where (e.AreaName.StartsWith("Kół") || e.AreaName.StartsWith("Kolo") || e.AreaName.StartsWith("Kolko")) select e).FirstOrDefault();
+            EventItem wheelActivity = (from e in _eventsWrapped where ((e.AreaName.StartsWith("Kół") || e.AreaName.StartsWith("Kolo") || e.AreaName.StartsWith("Kolko")) && e.IsActive == true) select e).FirstOrDefault();
             if (wheelActivity != null)
             {
                 return wheelActivity.TimeSpan;
+            }
+            return TimeSpan.Zero;
+        }
+
+        private TimeSpan ApproxSleepTime()
+        {
+            EventItem houseSleep = (from e in _eventsWrapped where (e.AreaName.StartsWith("Dom") && e.IsActive == false) select e).FirstOrDefault();
+            if (houseSleep != null)
+            {
+                return houseSleep.TimeSpan;
+            }
+            return TimeSpan.Zero;
+        }
+
+        private TimeSpan ApproxDrinkingTime()
+        {
+            EventItem waterActivity = (from e in _eventsWrapped where (e.AreaName.StartsWith("Poid") && e.IsActive == true) select e).FirstOrDefault();
+            if (waterActivity != null)
+            {
+                return waterActivity.TimeSpan;
             }
             return TimeSpan.Zero;
         }
@@ -89,10 +109,9 @@ namespace FloofReport
             {
                 txbReport.AppendText( "\nObszar: " + e.AreaName?.ToString() + (e.IsActive ? " Aktywność" : " Bierność") + " Czas: " + e.TimeSpan.ToString(@"hh\:mm\:ss"));
             }
-            txbReport.AppendText("\n");
-            txbReport.AppendText("Prawodopodobny czas biegania na kołowrtoku określono na: " + ApproxRunningTime().ToString(@"hh\:mm\:ss"));
-
+            txbReport.AppendText("\nPrawodopodobny czas biegania na kołowrtoku określono na: " + ApproxRunningTime().ToString(@"hh\:mm\:ss"));
+            txbReport.AppendText("\nPrawodopodobny czas snu w domku określono na: " + ApproxSleepTime().ToString(@"hh\:mm\:ss"));
+            txbReport.AppendText("\nPrawodopodobny czas picia wody określono na: " + ApproxDrinkingTime().ToString(@"hh\:mm\:ss"));
         }
-
     }
 }
