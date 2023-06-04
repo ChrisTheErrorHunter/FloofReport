@@ -66,7 +66,10 @@ namespace FloofReport
             {
                 ColumnSeries series = new();
                 TimeSpan ts = TimeSpan.Zero;
-                EventItem wheelItem = eventItems.Items.Where(x => (x.AreaName ?? "").StartsWith("Kół") && x.IsActive == true).Select(x => x).First();
+                EventItem wheelItem = eventItems.Items
+                    .Where(x => (x.AreaName ?? "")
+                    .StartsWith("Kół") && x.IsActive == true)
+                    .Select(x => x).First();
                 series.Title = eventItems.Date;
                 series.DataLabels = false;
                 series.Values = new ChartValues<ObservableValue> { new ObservableValue(wheelItem.TimeSpan.TotalSeconds) };

@@ -13,10 +13,12 @@ namespace FloofReport
         HamsterBookContext _context = new HamsterBookContext();
         public ReportCalculator() { }
 
-        public List<EventItem> ManufactureReportTimeFrames(DateTime targetDate)
+        public List<EventItem> ManufactureReportTimeFrames(DateTime targetDate, Cage cage)
         {
 
-            List<Visualevent> visualevents = (from c in _context.Visualevents where c.Registrationtime.Date == targetDate.Date select c).OrderBy(ev => ev.Registrationtime).ToList();
+            List<Visualevent> visualevents = (from c in _context.Visualevents
+                                              where (c.Registrationtime.Date == targetDate.Date && c.Cageid == cage.Id)
+                                              select c).OrderBy(ev => ev.Registrationtime).ToList();
             List<EventItem> events = new List<EventItem>();
             int listLength = visualevents.Count;
             Visualevent currentEvent, nextEvent;
@@ -33,10 +35,6 @@ namespace FloofReport
                 {
                     events.Add(new EventItem(ts, currentEvent.Areaid, false));
                 }
-            }
-            foreach (Visualevent vEvent in visualevents)
-            {
-                Console.WriteLine(vEvent.Registrationtime.ToString());
             }
             return events;
         }

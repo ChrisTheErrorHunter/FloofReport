@@ -61,8 +61,8 @@ namespace FloofReport
             TimeSpan totalSpan = TimeSpan.Zero;
             bool previousActivity = !eventList[0].IsActive;
             foreach (EventItem item in eventList)
-            {
-                if (previousActivity == item.IsActive) // this is done to simplify the data so we don't get consecutive points on charts (they don't tell us much anyway)
+            { // this is done to simplify the data so we don't get consecutive points on charts (they don't tell us much anyway)
+                if (previousActivity == item.IsActive)
                 {
                     totalSpan += item.TimeSpan;
                     continue;
@@ -77,7 +77,7 @@ namespace FloofReport
 
         private TimeSpan ApproxRunningTime()
         {
-            EventItem wheelActivity = (from e in _eventsWrapped where ((e.AreaName.StartsWith("Kół") || e.AreaName.StartsWith("Kolo") || e.AreaName.StartsWith("Kolko")) && e.IsActive == true) select e).FirstOrDefault();
+            EventItem? wheelActivity = (from e in _eventsWrapped where ((e.AreaName.StartsWith("Kół") || e.AreaName.StartsWith("Kolo") || e.AreaName.StartsWith("Kolko")) && e.IsActive == true) select e).FirstOrDefault();
             if (wheelActivity != null)
             {
                 return wheelActivity.TimeSpan;
@@ -87,7 +87,7 @@ namespace FloofReport
 
         private TimeSpan ApproxSleepTime()
         {
-            EventItem houseSleep = (from e in _eventsWrapped where (e.AreaName.StartsWith("Dom") && e.IsActive == false) select e).FirstOrDefault();
+            EventItem? houseSleep = (from e in _eventsWrapped where (e.AreaName.StartsWith("Dom") && e.IsActive == false) select e).FirstOrDefault();
             if (houseSleep != null)
             {
                 return houseSleep.TimeSpan;
@@ -97,7 +97,7 @@ namespace FloofReport
 
         private TimeSpan ApproxDrinkingTime()
         {
-            EventItem waterActivity = (from e in _eventsWrapped where (e.AreaName.StartsWith("Poid") && e.IsActive == true) select e).FirstOrDefault();
+            EventItem? waterActivity = (from e in _eventsWrapped where (e.AreaName.StartsWith("Poid") && e.IsActive == true) select e).FirstOrDefault();
             if (waterActivity != null)
             {
                 return waterActivity.TimeSpan;

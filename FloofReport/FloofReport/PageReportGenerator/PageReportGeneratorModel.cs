@@ -37,6 +37,8 @@ namespace FloofReport
 
         private DateTime _selectedDate;
 
+        private Cage _selectedCage;
+
         private ObservableCollection<string> _years = new();
         public ObservableCollection<string> Years { get { return _years; } set { _years = value; NotifyPropertyChanged(this, nameof(Years)); } }
 
@@ -88,6 +90,7 @@ namespace FloofReport
         public void GetAllDatesForCage(Cage cage)
         {
             AvailableTimes.Clear();
+            _selectedCage = cage;
             var dates = _context.Visualevents.AsEnumerable().AsQueryable();
             var distinctDays = dates
                 .Where(x => x.Cageid == cage.Id)
@@ -107,7 +110,7 @@ namespace FloofReport
                 MessageBox.Show("Wybierz datę!");
                 return;
             }
-            List<EventItem> ev = _calculator.ManufactureReportTimeFrames(_selectedDate);
+            List<EventItem> ev = _calculator.ManufactureReportTimeFrames(_selectedDate, _selectedCage);
             List<EventItem> itemsToDisplay = _calculator.GetWrappedEvents(ev);
             WrappedData = itemsToDisplay;
             WindowReportCharts chartWindow = new(WrappedData, ev, _selectedDate.ToString("dd-MM-yy"));
@@ -172,7 +175,7 @@ namespace FloofReport
             List<EventItemsXExamine> eventItemsList = new List<EventItemsXExamine>();
             foreach(string date in XExamineDates)
             {
-                List<EventItem> events = _calculator.ManufactureReportTimeFrames(DateTime.Parse(date));
+                List<EventItem> events = _calculator.ManufactureReportTimeFrames(DateTime.Parse(date), _selectedCage);
                 List<EventItem> wrapped = _calculator.GetWrappedEvents(events);
                 eventItemsList.Add(new EventItemsXExamine(date, wrapped));
             }
